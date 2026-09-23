@@ -51,6 +51,12 @@ class CStorePocSmokeTest(unittest.TestCase):
         self.assertTrue(forbidden.isdisjoint(profile))
         self.assertIn("aggregate shape only", profile["privacy_mode"])
 
+    def test_schema_provenance_is_documented_separately(self) -> None:
+        readme = (ROOT / "README.md").read_text(encoding="utf-8")
+        provenance = (ROOT / "SCHEMA_PROVENANCE.md").read_text(encoding="utf-8")
+        self.assertIn("SCHEMA_PROVENANCE.md", readme)
+        self.assertIn("private implementation is intentionally not named", provenance)
+
     def test_report_handles_latency_below_default_log_scale_floor(self) -> None:
         summary = json.loads((ROOT / "demo_results" / "cstore_poc_summary.json").read_text(encoding="utf-8"))
         summary["benchmark_results"][0]["median_ms"] = 0.001

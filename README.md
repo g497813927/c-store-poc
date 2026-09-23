@@ -13,7 +13,7 @@ SQLite is **not** the benchmark engine. An uploaded database is opened read-only
 
 The UI and CLI also support a **fully random** mode, so the experiment can run without any database upload.
 
-Schema provenance: the `dynamics` upload contract follows [`dynamic_topic_activity.py::init_db`](https://github.com/g497813927/bilibili-dynamic-topic/blob/main/dynamic_topic_activity.py#L194-L215) in the private `g497813927/bilibili-dynamic-topic` repository. That private project is an adapted codebase, with changes, and reuses portions of schema/code from the public [dingwen07/Bilibili-dynamic](https://github.com/dingwen07/Bilibili-dynamic) project; its corresponding original SQLite design is in [`topic_dynamic.py::TopicDynamic.init_db`](https://github.com/dingwen07/Bilibili-dynamic/blob/master/topic_dynamic.py#L206-L225). These repositories are referenced for provenance only and are not bundled here. The POC relies only on the documented seven-column contract and does not claim exact implementation compatibility.
+The supported SQLite contract and its source history are documented separately in [SCHEMA_PROVENANCE.md](SCHEMA_PROVENANCE.md).
 
 ## Demo result
 

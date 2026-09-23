@@ -49,7 +49,7 @@ The result confirms the synthetic POC's direction:
 
 The implementation follows one focused aspect of Stonebraker et al., *C-Store: A Column-oriented DBMS* (VLDB 2005): column representation plus multiple sort orders (“projections”).
 
-Schema provenance: the upload contract follows [`dynamic_topic_activity.py::init_db`](https://github.com/g497813927/bilibili-dynamic-topic/blob/main/dynamic_topic_activity.py#L194-L215) in the private `g497813927/bilibili-dynamic-topic` repository. That adapted project, with changes, reuses portions of schema/code from [dingwen07/Bilibili-dynamic](https://github.com/dingwen07/Bilibili-dynamic); the corresponding public design is [`topic_dynamic.py::TopicDynamic.init_db`](https://github.com/dingwen07/Bilibili-dynamic/blob/master/topic_dynamic.py#L206-L225). Neither source repository is bundled with this POC, and compatibility does not imply an exact copy.
+The supported SQLite contract and its source history are documented separately in [SCHEMA_PROVENANCE.md](https://github.com/g497813927/c-store-poc/blob/main/SCHEMA_PROVENANCE.md).
 
 1. SQLite is opened read-only only to derive aggregate shape: schema, row count, ranked category frequencies, status counts, time bounds, distinct-user count, and text-length quantiles.
 2. No source path, file hash, IDs, category labels, descriptions, or payloads are retained. A seeded generator creates mock rows with synthetic IDs, labels, descriptions, and JSON-like payloads.
