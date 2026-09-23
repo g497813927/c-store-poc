@@ -103,7 +103,7 @@ with gr.Blocks(title="C-Store Layout POC") as demo:
 
 Upload a SQLite database with the supplied `dynamics` schema. The app derives aggregate shape statistics, generates a deterministic mock dataset, and benchmarks custom **row/column × sorted/unsorted** binary layouts. SQLite never executes a timed comparison query.
 
-You can also choose **Fully random** to generate and benchmark a standalone dataset without uploading a database. The original data-collection project is [dingwen07/Bilibili-dynamic](https://github.com/dingwen07/Bilibili-dynamic); it is referenced for provenance and is not bundled here.
+You can also choose **Fully random** to generate and benchmark a standalone dataset without uploading a database. The upload contract follows [`dynamic_topic_activity.py::init_db`](https://github.com/g497813927/bilibili-dynamic-topic/blob/main/dynamic_topic_activity.py#L194-L215) in the private `g497813927/bilibili-dynamic-topic` repository. That adapted project, with changes, reuses portions of schema/code from [dingwen07/Bilibili-dynamic](https://github.com/dingwen07/Bilibili-dynamic); the corresponding public design is [`topic_dynamic.py::TopicDynamic.init_db`](https://github.com/dingwen07/Bilibili-dynamic/blob/master/topic_dynamic.py#L206-L225). Neither source repository is bundled here.
 """
     )
     gr.Markdown(
