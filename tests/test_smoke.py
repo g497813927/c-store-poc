@@ -51,6 +51,19 @@ class CStorePocSmokeTest(unittest.TestCase):
         self.assertTrue(forbidden.isdisjoint(profile))
         self.assertIn("aggregate shape only", profile["privacy_mode"])
 
+    def test_report_handles_latency_below_default_log_scale_floor(self) -> None:
+        summary = json.loads((ROOT / "demo_results" / "cstore_poc_summary.json").read_text(encoding="utf-8"))
+        summary["benchmark_results"][0]["median_ms"] = 0.001
+
+        with tempfile.TemporaryDirectory() as directory:
+            results = Path(directory)
+            summary_path = results / "cstore_poc_summary.json"
+            summary_path.write_text(json.dumps(summary), encoding="utf-8")
+            create_report(summary_path, results)
+
+            self.assertTrue((results / "benchmark_latency.svg").exists())
+            self.assertTrue((results / "benchmark_latency.png").exists())
+
     def test_random_profile_is_reproducible_and_self_contained(self) -> None:
         first = random_profile(5_000, 12, 42)
         second = random_profile(5_000, 12, 42)

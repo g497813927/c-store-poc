@@ -32,6 +32,14 @@ LABELS = {
 }
 
 
+def log_plot_bounds(values: Iterable[float], default_min: float, default_max: float) -> tuple[float, float]:
+    """Return padded positive bounds that always contain the observed values."""
+    observed = [float(value) for value in values]
+    if not observed or any(not math.isfinite(value) or value <= 0 for value in observed):
+        raise ValueError("Log-scale chart values must be finite and greater than zero")
+    return min(default_min, min(observed) * 0.8), max(default_max, max(observed) * 1.2)
+
+
 def esc(value: object) -> str:
     return html.escape(str(value), quote=True)
 
@@ -50,7 +58,7 @@ def latency_svg(summary: dict[str, object], output: Path) -> None:
     width, height = 1080, 640
     left, right, top, bottom = 105, 35, 105, 150
     plot_w, plot_h = width - left - right, height - top - bottom
-    y_min, y_max = 0.05, 100.0
+    y_min, y_max = log_plot_bounds(values.values(), 0.05, 100.0)
     ticks = [0.05, 0.1, 0.5, 1, 5, 10, 50, 100]
     dataset_label = "Provided raw rows (labels redacted)" if summary.get("dataset") else "Synthetic 85,478-row dataset"
 
@@ -102,7 +110,8 @@ def size_svg(summary: dict[str, object], output: Path) -> None:
     width, height = 1080, 610
     left, right, top, bottom = 105, 35, 100, 135
     plot_w, plot_h = width - left - right, height - top - bottom
-    y_min, y_max = 0.01, 500.0
+    size_values = [float(sizes[layout][metric]) for layout in LAYOUT_ORDER for metric in ("raw_mib", "gzip_mib")]
+    y_min, y_max = log_plot_bounds(size_values, 0.01, 500.0)
     ticks = [0.01, 0.1, 1, 10, 100, 300]
 
     def y_position(value: float) -> float:
@@ -169,7 +178,7 @@ def latency_png(summary: dict[str, object], output: Path) -> None:
     width, height = 1080, 640
     left, right, top, bottom = 105, 35, 105, 150
     plot_w, plot_h = width - left - right, height - top - bottom
-    y_min, y_max = 0.05, 100.0
+    y_min, y_max = log_plot_bounds(values.values(), 0.05, 100.0)
     ticks = [0.05, 0.1, 0.5, 1, 5, 10, 50, 100]
     dataset_label = "Provided raw rows (labels redacted)" if summary.get("dataset") else "Synthetic 85,478-row dataset"
     image = Image.new("RGB", (width, height), "white")
@@ -210,7 +219,8 @@ def size_png(summary: dict[str, object], output: Path) -> None:
     width, height = 1080, 610
     left, right, top, bottom = 105, 35, 100, 135
     plot_w, plot_h = width - left - right, height - top - bottom
-    y_min, y_max = 0.01, 500.0
+    size_values = [float(sizes[layout][metric]) for layout in LAYOUT_ORDER for metric in ("raw_mib", "gzip_mib")]
+    y_min, y_max = log_plot_bounds(size_values, 0.01, 500.0)
     image = Image.new("RGB", (width, height), "white")
     draw = ImageDraw.Draw(image)
     draw.text((left, 24), "Physical layout size", font=font(26, True), fill="#252A31")
