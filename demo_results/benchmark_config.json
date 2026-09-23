@@ -1,0 +1,14 @@
+{
+  "cache_policy": "warm OS cache; each invocation reopens/memmaps its custom files",
+  "range_end": 1619735347,
+  "range_end_text": "2021-04-29 22:29:07",
+  "range_start": 1575975967,
+  "range_start_text": "2019-12-10 11:06:07",
+  "repeats": 9,
+  "target_status": 1,
+  "target_status_rows": 9962,
+  "target_topic_code": 0,
+  "target_topic_name": "topic_000",
+  "target_topic_rows": 67437,
+  "warmups": 2
+}

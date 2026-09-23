@@ -1,0 +1,4 @@
+gradio>=5.0,<7
+numpy>=1.26
+pandas>=2.1
+Pillow>=10.0

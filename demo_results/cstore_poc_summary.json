@@ -1,0 +1,250 @@
+{
+  "benchmark_config": {
+    "cache_policy": "warm OS cache; each invocation reopens/memmaps its custom files",
+    "range_end": 1619735347,
+    "range_end_text": "2021-04-29 22:29:07",
+    "range_start": 1575975967,
+    "range_start_text": "2019-12-10 11:06:07",
+    "repeats": 9,
+    "target_status": 1,
+    "target_status_rows": 9962,
+    "target_topic_code": 0,
+    "target_topic_name": "topic_000",
+    "target_topic_rows": 67437,
+    "warmups": 2
+  },
+  "benchmark_results": [
+    {
+      "layout": "row_unsorted",
+      "logical_bytes_accessed": 307338967,
+      "max_ms": 31.557292,
+      "mean_ms": 28.095291777777778,
+      "median_ms": 27.130792,
+      "min_ms": 26.809,
+      "query": "status_count",
+      "repeats": 9,
+      "result": 9962,
+      "stdev_ms": 1.864118150614774
+    },
+    {
+      "layout": "row_unsorted",
+      "logical_bytes_accessed": 307338967,
+      "max_ms": 36.838917,
+      "mean_ms": 32.26781011111112,
+      "median_ms": 32.916875,
+      "min_ms": 28.622458,
+      "query": "topic_time_count",
+      "repeats": 9,
+      "result": 33719,
+      "stdev_ms": 2.6586166625930416
+    },
+    {
+      "layout": "row_unsorted",
+      "logical_bytes_accessed": 307338967,
+      "max_ms": 31.39375,
+      "mean_ms": 28.18507888888889,
+      "median_ms": 27.377709,
+      "min_ms": 26.214542,
+      "query": "payload_bytes_for_status",
+      "repeats": 9,
+      "result": 35680971,
+      "stdev_ms": 2.0901297976484288
+    },
+    {
+      "layout": "row_sorted",
+      "logical_bytes_accessed": 307338967,
+      "max_ms": 36.754042,
+      "mean_ms": 31.31643533333333,
+      "median_ms": 31.605875,
+      "min_ms": 27.267292,
+      "query": "status_count",
+      "repeats": 9,
+      "result": 9962,
+      "stdev_ms": 2.828989797772298
+    },
+    {
+      "layout": "row_sorted",
+      "logical_bytes_accessed": 3312,
+      "max_ms": 0.215459,
+      "mean_ms": 0.1888841111111111,
+      "median_ms": 0.189834,
+      "min_ms": 0.172458,
+      "query": "topic_time_count",
+      "repeats": 9,
+      "result": 33719,
+      "stdev_ms": 0.012290162788226654
+    },
+    {
+      "layout": "row_sorted",
+      "logical_bytes_accessed": 307338967,
+      "max_ms": 34.460083,
+      "mean_ms": 30.012555666666668,
+      "median_ms": 30.228042,
+      "min_ms": 26.373417,
+      "query": "payload_bytes_for_status",
+      "repeats": 9,
+      "result": 35680971,
+      "stdev_ms": 2.4287836429012146
+    },
+    {
+      "layout": "column_unsorted",
+      "logical_bytes_accessed": 341912,
+      "max_ms": 0.085917,
+      "mean_ms": 0.06575,
+      "median_ms": 0.062541,
+      "min_ms": 0.058625,
+      "query": "status_count",
+      "repeats": 9,
+      "result": 9962,
+      "stdev_ms": 0.008746580889124616
+    },
+    {
+      "layout": "column_unsorted",
+      "logical_bytes_accessed": 854780,
+      "max_ms": 0.184625,
+      "mean_ms": 0.15315733333333334,
+      "median_ms": 0.143625,
+      "min_ms": 0.127042,
+      "query": "topic_time_count",
+      "repeats": 9,
+      "result": 33719,
+      "stdev_ms": 0.024909045992369924
+    },
+    {
+      "layout": "column_unsorted",
+      "logical_bytes_accessed": 1709576,
+      "max_ms": 14.376875,
+      "mean_ms": 2.3863425555555557,
+      "median_ms": 0.405916,
+      "min_ms": 0.372417,
+      "query": "payload_bytes_for_status",
+      "repeats": 9,
+      "result": 35680971,
+      "stdev_ms": 4.680220062206346
+    },
+    {
+      "layout": "column_sorted",
+      "logical_bytes_accessed": 341912,
+      "max_ms": 0.067541,
+      "mean_ms": 0.06518522222222223,
+      "median_ms": 0.065042,
+      "min_ms": 0.064125,
+      "query": "status_count",
+      "repeats": 9,
+      "result": 9962,
+      "stdev_ms": 0.0010414374414454504
+    },
+    {
+      "layout": "column_sorted",
+      "logical_bytes_accessed": 720,
+      "max_ms": 0.161125,
+      "mean_ms": 0.13190255555555555,
+      "median_ms": 0.128709,
+      "min_ms": 0.122666,
+      "query": "topic_time_count",
+      "repeats": 9,
+      "result": 33719,
+      "stdev_ms": 0.011654641876856523
+    },
+    {
+      "layout": "column_sorted",
+      "logical_bytes_accessed": 1709576,
+      "max_ms": 0.388541,
+      "mean_ms": 0.3802498888888889,
+      "median_ms": 0.380292,
+      "min_ms": 0.373958,
+      "query": "payload_bytes_for_status",
+      "repeats": 9,
+      "result": 35680971,
+      "stdev_ms": 0.004460665685871463
+    }
+  ],
+  "correctness": "PASS: every query returned the same result in all four layouts",
+  "data_profile": {
+    "column_count": 7,
+    "data_utf8_bytes": 291732543,
+    "description_utf8_bytes": 12358260,
+    "distinct_ids": 85478,
+    "distinct_topics": 16,
+    "distinct_uids": 66630,
+    "exact_duplicate_ids": 0,
+    "max_time": "2022-01-05 00:21:48",
+    "min_time": "2019-04-01 20:54:56",
+    "notes": [
+      "All rows are deterministic synthetic records generated from aggregate shape statistics.",
+      "No source IDs, topic labels, descriptions, or payload values are present.",
+      "Times are interpreted as UTC only to obtain a stable sortable integer; no timezone-dependent query is used."
+    ],
+    "nulls": 0,
+    "row_count": 85478,
+    "status_counts": {
+      "0": 75516,
+      "1": 9962
+    },
+    "topic_counts": {
+      "topic_000": 67437,
+      "topic_001": 6090,
+      "topic_002": 2954,
+      "topic_003": 2117,
+      "topic_004": 1738,
+      "topic_005": 1484,
+      "topic_006": 849,
+      "topic_007": 735,
+      "topic_008": 471,
+      "topic_009": 470,
+      "topic_010": 409,
+      "topic_011": 372,
+      "topic_012": 216,
+      "topic_013": 93,
+      "topic_014": 39,
+      "topic_015": 4
+    }
+  },
+  "layout_sizes": [
+    {
+      "file_count": 4,
+      "gzip_bytes": 5316707,
+      "gzip_mib": 5.070406913757324,
+      "layout": "row_unsorted",
+      "raw_bytes": 308023293,
+      "raw_mib": 293.75390338897705
+    },
+    {
+      "file_count": 4,
+      "gzip_bytes": 5459062,
+      "gzip_mib": 5.206167221069336,
+      "layout": "row_sorted",
+      "raw_bytes": 308023335,
+      "raw_mib": 293.75394344329834
+    },
+    {
+      "file_count": 11,
+      "gzip_bytes": 4082317,
+      "gzip_mib": 3.8932008743286133,
+      "layout": "column_unsorted",
+      "raw_bytes": 308023254,
+      "raw_mib": 293.7538661956787
+    },
+    {
+      "file_count": 11,
+      "gzip_bytes": 4393979,
+      "gzip_mib": 4.190424919128418,
+      "layout": "column_sorted",
+      "raw_bytes": 308023296,
+      "raw_mib": 293.75390625
+    }
+  ],
+  "method": {
+    "compression_metric": "actual gzip level-6 byte count, one stream per physical file",
+    "layouts": [
+      "row_unsorted",
+      "row_sorted by (topic_name, time, id)",
+      "column_unsorted",
+      "column_sorted by (topic_name, time, id)"
+    ],
+    "source": "deterministic synthetic CSV.gz generated from aggregate SQLite shape statistics",
+    "timed_engine": "custom Python/NumPy row and column readers; no SQLite query is timed",
+    "timing_metric": "median of 9 warm-cache runs after 2 warmups"
+  },
+  "script_version": "1.1"
+}

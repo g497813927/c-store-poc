@@ -1,0 +1,96 @@
+{
+  "complete_row_count": 85478,
+  "data_length_bytes": {
+    "max": 22940,
+    "mean": 3372.251959568544,
+    "median": 3351,
+    "min": 1196,
+    "p25": 3054,
+    "p75": 3753,
+    "p90": 4214,
+    "p99": 5755
+  },
+  "description_length_bytes": {
+    "max": 2995,
+    "mean": 128.48072018531084,
+    "median": 96,
+    "min": 0,
+    "p25": 59,
+    "p75": 155,
+    "p90": 247,
+    "p99": 608
+  },
+  "distinct_uid_count": 66630,
+  "excluded_null_rows": 0,
+  "max_time": "2022-01-05 00:59:50",
+  "min_time": "2019-04-01 20:47:40",
+  "mock_seed": 20250923,
+  "privacy_mode": "aggregate shape only; no source path, hash, IDs, topic labels, descriptions, or payloads retained",
+  "profile_version": 1,
+  "schema": [
+    {
+      "name": "id",
+      "not_null": true,
+      "primary_key": true,
+      "type": "INTEGER"
+    },
+    {
+      "name": "uid",
+      "not_null": true,
+      "primary_key": false,
+      "type": "INTEGER"
+    },
+    {
+      "name": "topic_name",
+      "not_null": false,
+      "primary_key": false,
+      "type": "TEXT"
+    },
+    {
+      "name": "time",
+      "not_null": false,
+      "primary_key": false,
+      "type": "TEXT"
+    },
+    {
+      "name": "status",
+      "not_null": true,
+      "primary_key": false,
+      "type": "INTEGER"
+    },
+    {
+      "name": "description",
+      "not_null": false,
+      "primary_key": false,
+      "type": "TEXT"
+    },
+    {
+      "name": "data",
+      "not_null": false,
+      "primary_key": false,
+      "type": "TEXT"
+    }
+  ],
+  "status_frequencies": {
+    "0": 75516,
+    "1": 9962
+  },
+  "topic_frequencies_ranked": [
+    67437,
+    6090,
+    2954,
+    2117,
+    1738,
+    1484,
+    849,
+    735,
+    471,
+    470,
+    409,
+    372,
+    216,
+    93,
+    39,
+    4
+  ]
+}

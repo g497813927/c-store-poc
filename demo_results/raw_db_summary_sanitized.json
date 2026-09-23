@@ -1,0 +1,246 @@
+{
+  "benchmark_config": {
+    "cache_policy": "warm OS cache; each invocation reopens/memmaps its custom files",
+    "range_end": 1626483563,
+    "range_end_text": "2021-07-17 00:59:23",
+    "range_start": 1611289101,
+    "range_start_text": "2021-01-22 04:18:21",
+    "repeats": 9,
+    "target_status": 1,
+    "target_status_rows": 9962,
+    "target_topic": "largest topic by row count (label redacted)",
+    "target_topic_code": 10,
+    "target_topic_rows": 67437,
+    "warmups": 2
+  },
+  "benchmark_results": [
+    {
+      "layout": "row_unsorted",
+      "logical_bytes_accessed": 302483792,
+      "max_ms": 32.501416,
+      "mean_ms": 30.68468966666667,
+      "median_ms": 31.177708,
+      "min_ms": 28.180292,
+      "query": "status_count",
+      "repeats": 9,
+      "result": 9962,
+      "stdev_ms": 1.2823501225684224
+    },
+    {
+      "layout": "row_unsorted",
+      "logical_bytes_accessed": 302483792,
+      "max_ms": 31.716917,
+      "mean_ms": 30.157527666666667,
+      "median_ms": 30.304417,
+      "min_ms": 27.3575,
+      "query": "topic_time_count",
+      "repeats": 9,
+      "result": 33719,
+      "stdev_ms": 1.3620175807496018
+    },
+    {
+      "layout": "row_unsorted",
+      "logical_bytes_accessed": 302483792,
+      "max_ms": 30.92275,
+      "mean_ms": 26.570782555555557,
+      "median_ms": 26.796917,
+      "min_ms": 23.390042,
+      "query": "payload_bytes_for_status",
+      "repeats": 9,
+      "result": 37478137,
+      "stdev_ms": 2.6046647622610726
+    },
+    {
+      "layout": "row_sorted",
+      "logical_bytes_accessed": 302483792,
+      "max_ms": 31.415,
+      "mean_ms": 29.857176111111112,
+      "median_ms": 30.271041,
+      "min_ms": 28.020917,
+      "query": "status_count",
+      "repeats": 9,
+      "result": 9962,
+      "stdev_ms": 1.234919795038371
+    },
+    {
+      "layout": "row_sorted",
+      "logical_bytes_accessed": 3312,
+      "max_ms": 0.269041,
+      "mean_ms": 0.23387477777777776,
+      "median_ms": 0.238417,
+      "min_ms": 0.198083,
+      "query": "topic_time_count",
+      "repeats": 9,
+      "result": 33719,
+      "stdev_ms": 0.021075558354274843
+    },
+    {
+      "layout": "row_sorted",
+      "logical_bytes_accessed": 302483792,
+      "max_ms": 30.747625,
+      "mean_ms": 28.357606555555556,
+      "median_ms": 28.039667,
+      "min_ms": 26.999542,
+      "query": "payload_bytes_for_status",
+      "repeats": 9,
+      "result": 37478137,
+      "stdev_ms": 1.2843647587937301
+    },
+    {
+      "layout": "column_unsorted",
+      "logical_bytes_accessed": 341912,
+      "max_ms": 0.078459,
+      "mean_ms": 0.0678148888888889,
+      "median_ms": 0.066792,
+      "min_ms": 0.063583,
+      "query": "status_count",
+      "repeats": 9,
+      "result": 9962,
+      "stdev_ms": 0.004666877902957298
+    },
+    {
+      "layout": "column_unsorted",
+      "logical_bytes_accessed": 854780,
+      "max_ms": 0.176541,
+      "mean_ms": 0.14831466666666668,
+      "median_ms": 0.145083,
+      "min_ms": 0.137875,
+      "query": "topic_time_count",
+      "repeats": 9,
+      "result": 33719,
+      "stdev_ms": 0.011832630867647312
+    },
+    {
+      "layout": "column_unsorted",
+      "logical_bytes_accessed": 1709576,
+      "max_ms": 0.430584,
+      "mean_ms": 0.40081944444444445,
+      "median_ms": 0.398083,
+      "min_ms": 0.361292,
+      "query": "payload_bytes_for_status",
+      "repeats": 9,
+      "result": 37478137,
+      "stdev_ms": 0.02156998896100269
+    },
+    {
+      "layout": "column_sorted",
+      "logical_bytes_accessed": 341912,
+      "max_ms": 0.157709,
+      "mean_ms": 0.10745844444444444,
+      "median_ms": 0.105,
+      "min_ms": 0.086959,
+      "query": "status_count",
+      "repeats": 9,
+      "result": 9962,
+      "stdev_ms": 0.021741786208308134
+    },
+    {
+      "layout": "column_sorted",
+      "logical_bytes_accessed": 720,
+      "max_ms": 0.280542,
+      "mean_ms": 0.17591677777777778,
+      "median_ms": 0.167708,
+      "min_ms": 0.135417,
+      "query": "topic_time_count",
+      "repeats": 9,
+      "result": 33719,
+      "stdev_ms": 0.043626046072781394
+    },
+    {
+      "layout": "column_sorted",
+      "logical_bytes_accessed": 1709576,
+      "max_ms": 0.416667,
+      "mean_ms": 0.39265744444444445,
+      "median_ms": 0.386667,
+      "min_ms": 0.3655,
+      "query": "payload_bytes_for_status",
+      "repeats": 9,
+      "result": 37478137,
+      "stdev_ms": 0.019004861812909297
+    }
+  ],
+  "correctness": "PASS: every query returned the same result in all four layouts",
+  "data_profile": {
+    "column_count": 7,
+    "data_utf8_bytes": 288253353,
+    "description_utf8_bytes": 10982275,
+    "distinct_ids": 85478,
+    "distinct_topics": 16,
+    "distinct_uids": 66630,
+    "exact_duplicate_ids": 0,
+    "max_time": "2022-01-05 00:59:50",
+    "min_time": "2019-04-01 20:47:40",
+    "notes": [
+      "Profile contains aggregate counts and byte totals only.",
+      "No source IDs, user IDs, topic labels, descriptions, payloads, path, or hash are published.",
+      "Times are interpreted as UTC only to obtain a stable sortable integer; no timezone-dependent query is used."
+    ],
+    "nulls": 0,
+    "privacy": "aggregate benchmark output only; raw rows and labels excluded",
+    "row_count": 85478,
+    "status_counts": {
+      "0": 75516,
+      "1": 9962
+    },
+    "topic_frequencies_ranked": [
+      67437,
+      6090,
+      2954,
+      2117,
+      1738,
+      1484,
+      849,
+      735,
+      471,
+      470,
+      409,
+      372,
+      216,
+      93,
+      39,
+      4
+    ]
+  },
+  "dataset": "provided raw SQLite rows, extracted privately before benchmarking",
+  "layout_sizes": [
+    {
+      "file_count": 4,
+      "gzip_bytes": 37183885,
+      "gzip_mib": 35.46131610870361,
+      "layout": "row_unsorted",
+      "raw_bytes": 303168417,
+      "raw_mib": 289.12393283843994
+    },
+    {
+      "file_count": 4,
+      "gzip_bytes": 36603364,
+      "gzip_mib": 34.90768814086914,
+      "layout": "row_sorted",
+      "raw_bytes": 303168459,
+      "raw_mib": 289.12397289276123
+    },
+    {
+      "file_count": 11,
+      "gzip_bytes": 32270050,
+      "gzip_mib": 30.775117874145508,
+      "layout": "column_unsorted",
+      "raw_bytes": 303168378,
+      "raw_mib": 289.1238956451416
+    },
+    {
+      "file_count": 11,
+      "gzip_bytes": 31792308,
+      "gzip_mib": 30.319507598876953,
+      "layout": "column_sorted",
+      "raw_bytes": 303168420,
+      "raw_mib": 289.1239356994629
+    }
+  ],
+  "method": {
+    "publication": "only redacted aggregate results are copied to outputs",
+    "source": "private neutral CSV.gz extraction of the supplied database",
+    "timed_engine": "custom Python/NumPy row and column readers; no SQLite query is timed"
+  },
+  "privacy": "contains no source path/hash, IDs, user IDs, topic labels, descriptions, payloads, or row-level output",
+  "script_version": "1.1"
+}

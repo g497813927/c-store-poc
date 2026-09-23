@@ -1,0 +1,40 @@
+{
+  "column_count": 7,
+  "data_utf8_bytes": 291732543,
+  "description_utf8_bytes": 12358260,
+  "distinct_ids": 85478,
+  "distinct_topics": 16,
+  "distinct_uids": 66630,
+  "exact_duplicate_ids": 0,
+  "max_time": "2022-01-05 00:21:48",
+  "min_time": "2019-04-01 20:54:56",
+  "notes": [
+    "All rows are deterministic synthetic records generated from aggregate shape statistics.",
+    "No source IDs, topic labels, descriptions, or payload values are present.",
+    "Times are interpreted as UTC only to obtain a stable sortable integer; no timezone-dependent query is used."
+  ],
+  "nulls": 0,
+  "row_count": 85478,
+  "status_counts": {
+    "0": 75516,
+    "1": 9962
+  },
+  "topic_counts": {
+    "topic_000": 67437,
+    "topic_001": 6090,
+    "topic_002": 2954,
+    "topic_003": 2117,
+    "topic_004": 1738,
+    "topic_005": 1484,
+    "topic_006": 849,
+    "topic_007": 735,
+    "topic_008": 471,
+    "topic_009": 470,
+    "topic_010": 409,
+    "topic_011": 372,
+    "topic_012": 216,
+    "topic_013": 93,
+    "topic_014": 39,
+    "topic_015": 4
+  }
+}
