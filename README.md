@@ -111,7 +111,7 @@ python cstore_poc.py all \
   --random \
   --rows 25000 \
   --topics 16 \
-  --seed 20250923 \
+  --seed 20260923 \
   --work-dir work/random-poc \
   --results-dir work/random-results
 ```

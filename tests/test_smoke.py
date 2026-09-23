@@ -6,7 +6,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from cstore_poc import random_profile, run_all
+from cstore_poc import DEFAULT_RANDOM_SEED, build_parser, random_profile, run_all
 from reporting import create_report
 
 
@@ -72,6 +72,11 @@ class CStorePocSmokeTest(unittest.TestCase):
         self.assertEqual(12, len(first["topic_frequencies_ranked"]))
         self.assertEqual(5_000, sum(first["status_frequencies"].values()))
         self.assertIn("no uploaded database", first["privacy_mode"])
+
+    def test_random_cli_uses_current_default_seed(self) -> None:
+        args = build_parser().parse_args(["all", "--random"])
+        self.assertEqual(20260923, DEFAULT_RANDOM_SEED)
+        self.assertEqual(DEFAULT_RANDOM_SEED, args.seed)
 
 
 if __name__ == "__main__":

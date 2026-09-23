@@ -35,6 +35,7 @@ import numpy as np
 SCRIPT_VERSION = "1.1"
 DEFAULT_WORK = Path("work/cstore_poc")
 DEFAULT_RESULTS = Path("outputs")
+DEFAULT_RANDOM_SEED = 20260923
 
 CSV_COLUMNS = ("id", "uid", "topic_name", "time", "status", "description", "data")
 SORT_KEY = ("topic_name", "time", "id")
@@ -168,7 +169,7 @@ def profile_database(db_path: Path) -> dict[str, object]:
         "max_time": format_time(max(timestamps)),
         "description_length_bytes": distribution_summary(description_lengths),
         "data_length_bytes": distribution_summary(data_lengths),
-        "mock_seed": 20250923,
+        "mock_seed": DEFAULT_RANDOM_SEED,
     }
 
 
@@ -868,7 +869,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--random", action="store_true", help="Use a fully random standalone profile")
     parser.add_argument("--rows", type=int, default=25_000, help="Rows for --random (default: 25000)")
     parser.add_argument("--topics", type=int, default=16, help="Topics for --random (default: 16)")
-    parser.add_argument("--seed", type=int, default=20250923, help="Seed for --random")
+    parser.add_argument("--seed", type=int, default=DEFAULT_RANDOM_SEED, help="Seed for --random")
     parser.add_argument("--row-limit", type=int, help="Optional synthetic row cap for quick UI/demo runs")
     parser.add_argument("--work-dir", type=Path, default=DEFAULT_WORK)
     parser.add_argument("--results-dir", type=Path, default=DEFAULT_RESULTS)

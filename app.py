@@ -11,7 +11,7 @@ from pathlib import Path
 import gradio as gr
 import pandas as pd
 
-from cstore_poc import profile_database, random_profile, run_all
+from cstore_poc import DEFAULT_RANDOM_SEED, profile_database, random_profile, run_all
 from reporting import create_report
 
 
@@ -139,7 +139,7 @@ You can also choose **Fully random** to generate and benchmark a standalone data
             info="Used only in Fully random mode.",
         )
         seed = gr.Number(
-            value=20250923,
+            value=DEFAULT_RANDOM_SEED,
             precision=0,
             label="Random seed",
             info="Used only in Fully random mode; the same settings reproduce the same rows.",
