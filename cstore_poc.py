@@ -286,6 +286,50 @@ def generate_mock_extract(
     return csv_path
 
 
+def random_profile(row_count: int, topic_count: int, seed: int) -> dict[str, object]:
+    """Create a standalone profile that does not depend on an uploaded database."""
+    if row_count <= 0:
+        raise ValueError("Random row count must be positive")
+    if not 1 <= topic_count <= min(row_count, 256):
+        raise ValueError("Topic count must be between 1 and min(row_count, 256)")
+    weights = [1 / (rank**0.9) for rank in range(1, topic_count + 1)]
+    scale = 1_000_000
+    topic_frequencies = scaled_frequencies(
+        [max(1, round(weight * scale)) for weight in weights],
+        row_count,
+    )
+    minority = max(1, round(row_count * 0.12))
+    return {
+        "profile_version": 1,
+        "privacy_mode": "fully random standalone profile; no uploaded database used",
+        "schema": [
+            {"name": "id", "type": "INTEGER", "not_null": True, "primary_key": True},
+            {"name": "uid", "type": "INTEGER", "not_null": True, "primary_key": False},
+            {"name": "topic_name", "type": "TEXT", "not_null": True, "primary_key": False},
+            {"name": "time", "type": "TEXT", "not_null": True, "primary_key": False},
+            {"name": "status", "type": "INTEGER", "not_null": True, "primary_key": False},
+            {"name": "description", "type": "TEXT", "not_null": True, "primary_key": False},
+            {"name": "data", "type": "TEXT", "not_null": True, "primary_key": False},
+        ],
+        "complete_row_count": row_count,
+        "excluded_null_rows": 0,
+        "distinct_uid_count": max(1, round(row_count * 0.72)),
+        "topic_frequencies_ranked": topic_frequencies,
+        "status_frequencies": {"0": row_count - minority, "1": minority},
+        "min_time": "2021-01-01 00:00:00",
+        "max_time": "2025-12-31 23:59:59",
+        "description_length_bytes": {
+            "min": 0, "p25": 48, "median": 96, "p75": 160,
+            "p90": 260, "p99": 640, "max": 3_000, "mean": 132.0,
+        },
+        "data_length_bytes": {
+            "min": 1_000, "p25": 2_800, "median": 3_300, "p75": 3_900,
+            "p90": 4_500, "p99": 6_000, "max": 24_000, "mean": 3_450.0,
+        },
+        "mock_seed": seed,
+    }
+
+
 def iter_extract(csv_path: Path) -> Iterator[tuple[str, ...]]:
     with gzip.open(csv_path, "rt", encoding="utf-8", newline="") as handle:
         reader = csv.reader(handle)
@@ -821,6 +865,10 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("command", choices=("profile", "mock", "build", "benchmark", "validate", "all"))
     parser.add_argument("--db", type=Path, help="SQLite upload used only for aggregate shape profiling")
     parser.add_argument("--profile", type=Path, help="Sanitized aggregate profile JSON; avoids opening SQLite")
+    parser.add_argument("--random", action="store_true", help="Use a fully random standalone profile")
+    parser.add_argument("--rows", type=int, default=25_000, help="Rows for --random (default: 25000)")
+    parser.add_argument("--topics", type=int, default=16, help="Topics for --random (default: 16)")
+    parser.add_argument("--seed", type=int, default=20250923, help="Seed for --random")
     parser.add_argument("--row-limit", type=int, help="Optional synthetic row cap for quick UI/demo runs")
     parser.add_argument("--work-dir", type=Path, default=DEFAULT_WORK)
     parser.add_argument("--results-dir", type=Path, default=DEFAULT_RESULTS)
@@ -848,14 +896,21 @@ def main(argv: Sequence[str] | None = None) -> int:
     elif args.command == "validate":
         validate_outputs(args.work_dir, args.results_dir)
     elif args.command == "all":
-        if bool(args.db) == bool(args.profile):
-            raise SystemExit("For all, provide exactly one of --db or --profile")
-        profile = (
-            profile_database(args.db)
-            if args.db
-            else json.loads(args.profile.read_text(encoding="utf-8"))
+        source_count = sum((bool(args.db), bool(args.profile), bool(args.random)))
+        if source_count != 1:
+            raise SystemExit("For all, provide exactly one of --db, --profile, or --random")
+        if args.db:
+            profile = profile_database(args.db)
+        elif args.profile:
+            profile = json.loads(args.profile.read_text(encoding="utf-8"))
+        else:
+            profile = random_profile(args.rows, args.topics, args.seed)
+        run_all(
+            profile,
+            args.work_dir,
+            args.results_dir,
+            row_limit=None if args.random else args.row_limit,
         )
-        run_all(profile, args.work_dir, args.results_dir, row_limit=args.row_limit)
     return 0
 
 

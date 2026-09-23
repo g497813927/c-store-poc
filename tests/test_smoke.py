@@ -6,7 +6,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from cstore_poc import run_all
+from cstore_poc import random_profile, run_all
 from reporting import create_report
 
 
@@ -50,6 +50,15 @@ class CStorePocSmokeTest(unittest.TestCase):
         forbidden = {"source_database", "source_database_sha256", "source_path", "topic_names", "ids"}
         self.assertTrue(forbidden.isdisjoint(profile))
         self.assertIn("aggregate shape only", profile["privacy_mode"])
+
+    def test_random_profile_is_reproducible_and_self_contained(self) -> None:
+        first = random_profile(5_000, 12, 42)
+        second = random_profile(5_000, 12, 42)
+        self.assertEqual(first, second)
+        self.assertEqual(5_000, sum(first["topic_frequencies_ranked"]))
+        self.assertEqual(12, len(first["topic_frequencies_ranked"]))
+        self.assertEqual(5_000, sum(first["status_frequencies"].values()))
+        self.assertIn("no uploaded database", first["privacy_mode"])
 
 
 if __name__ == "__main__":

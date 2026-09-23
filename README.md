@@ -11,6 +11,10 @@ The POC compares four custom binary layouts:
 
 SQLite is **not** the benchmark engine. An uploaded database is opened read-only only to derive aggregate shape statistics. The program then generates synthetic rows and runs every measured query against custom row/column files.
 
+The UI and CLI also support a **fully random** mode, so the experiment can run without any database upload.
+
+Dataset provenance reference: [dingwen07/Bilibili-dynamic](https://github.com/dingwen07/Bilibili-dynamic). That upstream data-collection project is referenced only and is not bundled with this repository.
+
 ## Demo result
 
 The checked-in demo uses 85,478 deterministic mock rows shaped like the supplied database, with no source row values retained.
@@ -74,6 +78,8 @@ id, uid, topic_name, time, status, description, data
 
 The downloadable ZIP contains only the sanitized aggregate profile, benchmark tables, graphs, and report. Generated binary layouts are deleted after the UI run.
 
+Alternatively, select **Fully random**, choose the row count, topic count, and seed, and run without uploading anything.
+
 ## Run the checked-in synthetic profile from the CLI
 
 ```bash
@@ -97,6 +103,18 @@ python cstore_poc.py all \
 ```
 
 No source rows are exported by either command.
+
+To generate a standalone random dataset from the CLI:
+
+```bash
+python cstore_poc.py all \
+  --random \
+  --rows 25000 \
+  --topics 16 \
+  --seed 20250923 \
+  --work-dir work/random-poc \
+  --results-dir work/random-results
+```
 
 ## What is measured
 

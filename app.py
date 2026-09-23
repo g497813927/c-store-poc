@@ -11,7 +11,7 @@ from pathlib import Path
 import gradio as gr
 import pandas as pd
 
-from cstore_poc import profile_database, run_all
+from cstore_poc import profile_database, random_profile, run_all
 from reporting import create_report
 
 
@@ -19,7 +19,7 @@ ROOT = Path(__file__).resolve().parent
 RUN_ROOT = ROOT / ".runs"
 
 
-def result_markdown(summary: dict[str, object]) -> str:
+def result_markdown(summary: dict[str, object], source_label: str) -> str:
     results = {
         (row["layout"], row["query"]): float(row["median_ms"])
         for row in summary["benchmark_results"]
@@ -30,9 +30,14 @@ def result_markdown(summary: dict[str, object]) -> str:
     sorted_row_speedup = results[("row_unsorted", "topic_time_count")] / results[("row_sorted", "topic_time_count")]
     gzip_reduction = 1 - float(sizes["column_unsorted"]["gzip_bytes"]) / float(sizes["row_unsorted"]["gzip_bytes"])
     row_count = int(summary["data_profile"]["row_count"])
+    privacy_sentence = (
+        "The upload was opened read-only only to derive aggregate shape statistics; source IDs, labels, descriptions, and payloads were not retained."
+        if source_label == "Upload-shaped mock"
+        else "No database was uploaded or read; the profile and rows were generated from the selected random parameters."
+    )
     return f"""## Result
 
-All timed operations used **{row_count:,} generated mock rows**. The upload was opened read-only only to derive aggregate shape statistics; source IDs, labels, descriptions, and payloads were not retained.
+Source: **{source_label}**. All timed operations used **{row_count:,} generated mock rows**. {privacy_sentence}
 
 - Unsorted column status scan: **{status_speedup:.1f}x faster** than unsorted rows.
 - Unsorted column topic/time scan: **{range_speedup:.1f}x faster** than unsorted rows.
@@ -42,16 +47,26 @@ All timed operations used **{row_count:,} generated mock rows**. The upload was 
 """
 
 
-def run_uploaded_database(database_file: str | None, row_limit: float) -> tuple[object, ...]:
-    if not database_file:
-        raise gr.Error("Upload a SQLite database first.")
+def run_benchmark(
+    source_mode: str,
+    database_file: str | None,
+    row_limit: float,
+    topic_count: float,
+    seed: float,
+) -> tuple[object, ...]:
     run_id = uuid.uuid4().hex[:12]
     run_dir = RUN_ROOT / run_id
     work_dir = run_dir / "work"
     results_dir = run_dir / "results"
     try:
-        profile = profile_database(Path(database_file))
-        limit = int(row_limit) if row_limit else None
+        if source_mode == "Upload-shaped mock":
+            if not database_file:
+                raise gr.Error("Upload a SQLite database or switch to Fully random.")
+            profile = profile_database(Path(database_file))
+            limit = int(row_limit) if row_limit else None
+        else:
+            profile = random_profile(int(row_limit), int(topic_count), int(seed))
+            limit = None
         run_all(profile, work_dir, results_dir, row_limit=limit)
         create_report(results_dir / "cstore_poc_summary.json", results_dir)
         summary = json.loads((results_dir / "cstore_poc_summary.json").read_text(encoding="utf-8"))
@@ -64,7 +79,7 @@ def run_uploaded_database(database_file: str | None, row_limit: float) -> tuple[
         archive_path = Path(shutil.make_archive(str(run_dir / "cstore-poc-results"), "zip", results_dir))
         shutil.rmtree(work_dir, ignore_errors=True)
         return (
-            result_markdown(summary),
+            result_markdown(summary, source_mode),
             benchmark_table,
             size_table,
             str(results_dir / "benchmark_latency.png"),
@@ -87,15 +102,22 @@ with gr.Blocks(title="C-Store Layout POC") as demo:
         """# C-Store physical-layout POC
 
 Upload a SQLite database with the supplied `dynamics` schema. The app derives aggregate shape statistics, generates a deterministic mock dataset, and benchmarks custom **row/column × sorted/unsorted** binary layouts. SQLite never executes a timed comparison query.
+
+You can also choose **Fully random** to generate and benchmark a standalone dataset without uploading a database. The original data-collection project is [dingwen07/Bilibili-dynamic](https://github.com/dingwen07/Bilibili-dynamic); it is referenced for provenance and is not bundled here.
 """
     )
     gr.Markdown(
         """**Privacy boundary:** no uploaded database is copied into the project or results. The retained profile excludes source paths/hashes, IDs, topic labels, descriptions, and payloads. Downloaded results contain synthetic data statistics only.""",
         elem_classes=["privacy-note"],
     )
+    source_mode = gr.Radio(
+        choices=["Upload-shaped mock", "Fully random"],
+        value="Upload-shaped mock",
+        label="Dataset source",
+    )
     with gr.Row():
         database = gr.File(
-            label="SQLite database",
+            label="SQLite database (optional in Fully random mode)",
             file_types=[".db", ".sqlite", ".sqlite3"],
             type="filepath",
         )
@@ -104,8 +126,23 @@ Upload a SQLite database with the supplied `dynamics` schema. The app derives ag
             maximum=100_000,
             value=25_000,
             step=1_000,
-            label="Synthetic rows",
-            info="Use the upload's full complete-row count when it is below this limit.",
+            label="Synthetic rows / upload cap",
+            info="Exact row count for Fully random; maximum complete-row count for Upload-shaped mock.",
+        )
+    with gr.Row():
+        topic_count = gr.Slider(
+            minimum=1,
+            maximum=64,
+            value=16,
+            step=1,
+            label="Random topic count",
+            info="Used only in Fully random mode.",
+        )
+        seed = gr.Number(
+            value=20250923,
+            precision=0,
+            label="Random seed",
+            info="Used only in Fully random mode; the same settings reproduce the same rows.",
         )
     run_button = gr.Button("Generate mock and run benchmark", variant="primary")
     summary_output = gr.Markdown()
@@ -118,8 +155,8 @@ Upload a SQLite database with the supplied `dynamics` schema. The app derives ag
     download_output = gr.File(label="Download sanitized results")
 
     run_button.click(
-        fn=run_uploaded_database,
-        inputs=[database, row_limit],
+        fn=run_benchmark,
+        inputs=[source_mode, database, row_limit, topic_count, seed],
         outputs=[
             summary_output,
             benchmark_output,

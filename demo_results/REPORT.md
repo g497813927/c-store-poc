@@ -49,6 +49,8 @@ The result confirms the synthetic POC's direction:
 
 The implementation follows one focused aspect of Stonebraker et al., *C-Store: A Column-oriented DBMS* (VLDB 2005): column representation plus multiple sort orders (“projections”).
 
+Dataset provenance reference: [dingwen07/Bilibili-dynamic](https://github.com/dingwen07/Bilibili-dynamic). That upstream data-collection project is referenced only and is not bundled with this POC.
+
 1. SQLite is opened read-only only to derive aggregate shape: schema, row count, ranked category frequencies, status counts, time bounds, distinct-user count, and text-length quantiles.
 2. No source path, file hash, IDs, category labels, descriptions, or payloads are retained. A seeded generator creates mock rows with synthetic IDs, labels, descriptions, and JSON-like payloads.
 3. Four custom binary layouts are built from the mock CSV snapshot: row/column × unsorted/sorted by `(topic, time, id)`.
